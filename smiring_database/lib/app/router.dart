@@ -6,6 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:smiring_database/app/routes.dart';
 import 'package:smiring_database/infrastructure/supabase/supabase_client.dart';
 import 'package:smiring_database/presentation/pages/home/home_page.dart';
+import 'package:smiring_database/presentation/pages/profile/profile_page.dart';
+import 'package:smiring_database/presentation/pages/sign_in/forgot_password_page.dart';
+import 'package:smiring_database/presentation/pages/sign_in/reset_password_page.dart';
 import 'package:smiring_database/presentation/pages/sign_in/sign_in_page.dart';
 import 'package:smiring_database/presentation/pages/sign_in/sign_up_page.dart';
 import 'package:smiring_database/presentation/pages/welcome/welcome_page.dart';
@@ -13,17 +16,32 @@ import 'package:smiring_database/presentation/widgets/layout/main_layout.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: AppRoutes.welcome,
+    // initialLocation: AppRoutes.welcome,
     debugLogDiagnostics: true, 
     refreshListenable: GoRouterRefreshStream(supabase.auth.onAuthStateChange),
 
     redirect: (context, state) {
       final session = supabase.auth.currentSession;
       final path = state.uri.path;
-      final isAuthRoute = path == AppRoutes.welcome || path == AppRoutes.signIn || path == AppRoutes.signUp;
-      
-      if (session == null && !isAuthRoute) return AppRoutes.signIn;
-      if (session != null && isAuthRoute && path != AppRoutes.welcome) return AppRoutes.home;
+
+      // 【最優先】パスワードリセット画面は、どんな状態でもそのまま表示許可
+      if (path == AppRoutes.resetPassword) return null;
+
+      // 公開ページの定義
+      final isPublicRoute = path == AppRoutes.welcome || 
+                            path == AppRoutes.signIn || 
+                            path == AppRoutes.signUp || 
+                            path == AppRoutes.forgotPassword;
+
+      // 未ログインの場合
+      if (session == null) {
+        if (path == AppRoutes.welcome) return null; // Welcomeページはそのまま
+        return isPublicRoute ? null : AppRoutes.signIn;
+      }
+
+      // ログイン済みの場合
+      // 公開ページ（ログイン画面など）にいたらHomeへ飛ばす
+      if (isPublicRoute) return AppRoutes.home;
 
       return null;
     },
@@ -33,9 +51,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: AppRoutes.welcome, builder: (_, __) => const WelcomePage()),
       GoRoute(path: AppRoutes.signIn, builder: (_, __) => const SignInPage()),
       GoRoute(path: AppRoutes.signUp, builder: (_, __) => const SignUpPage()),
+      GoRoute(path: AppRoutes.forgotPassword, builder: (_, __) => const ForgotPasswordPage()),
+      GoRoute(path: AppRoutes.resetPassword, builder: (_, __) => const ResetPasswordPage()),
 
       ShellRoute(
-        // ここで child (中身のページ) が渡ってきます
         builder: (context, state, child) {
           return MainLayout(child: child); 
         },
@@ -43,14 +62,13 @@ final routerProvider = Provider<GoRouter>((ref) {
           // この中に定義したルートが MainLayout の中身として表示されます
           GoRoute(
             path: AppRoutes.home, 
-            builder: (context, state) => const HomePage(), // ここは普通にPageを返す
+            builder: (context, state) => const HomePage(),
           ),
-          
-          // 他の認証後ページもここに追加
-          // GoRoute(
-          //   path: '/profile',
-          //   builder: (context, state) => const ProfilePage(),
-          // ),
+
+          GoRoute(
+            path: AppRoutes.profile, 
+            builder: (context, state) => const ProfilePage(),
+          ),
         ],
       ),
     ],

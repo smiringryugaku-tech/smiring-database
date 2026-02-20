@@ -29,17 +29,6 @@ class MainLayout extends StatelessWidget {
           'SmiRing Database',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-
-        // 右端のプロフィールアイコン (ダミー)
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.account_circle, size: 32),
-            onPressed: () {
-              debugPrint("プロフィールが押されました");
-            },
-          ),
-          const SizedBox(width: 16), // 右端に少し余白を入れる
-        ],
       ),
 
       // --- 2. ボディ (中身) ---

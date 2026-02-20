@@ -25,18 +25,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
     // 非同期処理の間に画面が閉じられている場合は何もしない（エラー防止）
     if (!mounted) return;
-
-    // 2. 認証状態をチェックして遷移 (Routerと同じロジック)
-    final session = supabase.auth.currentSession;
-    
-    if (session != null) {
-      // ログイン済みなら Home へ
-      // go() は履歴を置き換えるので戻るボタンで戻れません（スプラッシュ画面に最適）
-      context.go(AppRoutes.home);
-    } else {
-      // 未ログインなら Sign-in へ
-      context.go(AppRoutes.signIn);
-    }
+    context.go(AppRoutes.home);
   }
 
   @override

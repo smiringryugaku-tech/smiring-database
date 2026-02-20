@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smiring_database/app/routes.dart';
@@ -157,6 +158,45 @@ class _SignInPageState extends State<SignInPage> {
                             return null;
                           },
                         ),
+                        const SizedBox(height: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('For test use: '),
+                            Row(
+                              children: [
+                                const Text('Email: smiring.ryugaku@gmail.com'),
+                                IconButton(
+                                  icon: const Icon(Icons.copy, size: 20),
+                                  onPressed: () async {
+                                    await Clipboard.setData(
+                                      const ClipboardData(text: "smiring.ryugaku@gmail.com"),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Email copied to clipboard')),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text('Password: SmiRingTech'),
+                                IconButton(
+                                  icon: const Icon(Icons.copy, size: 20),
+                                  onPressed: () async {
+                                    await Clipboard.setData(
+                                      const ClipboardData(text: "SmiRingTech"),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Password copied to clipboard')),
+                                    );
+                                  },
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                         const SizedBox(height: 24),
 
                         // ログインボタン
@@ -183,8 +223,7 @@ class _SignInPageState extends State<SignInPage> {
                           children: [
                             TextButton(
                               onPressed: () {
-                                // TODO: パスワードリセット画面へ遷移
-                                debugPrint("パスワード忘れ");
+                                context.push(AppRoutes.forgotPassword);
                               },
                               child: const Text('Forgot Password?'),
                             ),
