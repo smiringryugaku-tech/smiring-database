@@ -76,7 +76,6 @@ class _HorizontalSection extends HookConsumerWidget {
   final String itemTitlePrefix;
 
   const _HorizontalSection({
-    super.key,
     required this.title,
     required this.imageAsset,
     required this.itemTitlePrefix,
@@ -84,8 +83,6 @@ class _HorizontalSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ★ 魔法の1行！ 
-    // これだけでScrollControllerが作成され、画面が閉じる時に自動でdispose()してくれます
     final scrollController = useScrollController();
     
     return Column(
