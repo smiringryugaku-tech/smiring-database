@@ -128,9 +128,9 @@ class ProfilePage extends ConsumerWidget {
             ),
           ),
 
-          // --- 右側：メインコンテンツ (Flex: 4) ---
+          // --- 右側：メインコンテンツ (Flex: 3) ---
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Container(
               color: Colors.white,
               child: Center(
