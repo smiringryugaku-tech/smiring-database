@@ -15,18 +15,17 @@ class MainLayout extends StatelessWidget {
       // --- 1. Global Nav Bar (AppBar) ---
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        
-        // 💡 leadingは削除！ 
-        // 下で `drawer` を設定すると、Flutterが自動的にハンバーガーメニューを表示してくれます。
 
         centerTitle: false,
-        title: const Text(
-          'SmiRing Database',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: TextButton(
+          onPressed: (){ context.go(AppRoutes.home); },
+          child: Text(
+            'SmiRing Database',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 24),
+          ),
         ),
       ),
 
-      // --- 🌟 追加：横から出てくるメニュー (Drawer) ---
       drawer: Drawer(
         child: SafeArea( // スマホのノッチなどに被らないようにする
           child: Column(
@@ -75,15 +74,6 @@ class MainLayout extends StatelessWidget {
 
       // --- 2. ボディ (中身) ---
       body: child,
-
-      // --- 3. Floating Button (左下 & チャット) ---
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          debugPrint("チャットボタンが押されました");
-        },
-        child: const Icon(Icons.chat),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

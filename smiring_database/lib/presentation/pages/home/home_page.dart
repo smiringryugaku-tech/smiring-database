@@ -35,19 +35,21 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 48),
 
                   // Profiles セクション
-                  const _HorizontalSection(
+                  _HorizontalSection(
                     title: 'Profiles',
                     imageAsset: 'assets/images/profile_photo_empty.png',
                     itemTitlePrefix: 'Name',
+                    onClickMore: (){ context.go(AppRoutes.members); },
                   ),
 
                   const SizedBox(height: 48),
 
                   // Photo Gallery セクション
-                  const _HorizontalSection(
+                  _HorizontalSection(
                     title: 'Photo Gallery',
                     imageAsset: 'assets/images/photo_empty.png',
                     itemTitlePrefix: 'Photo',
+                    onClickMore: (){},
                   ),
                 ],
               ),
@@ -74,11 +76,13 @@ class _HorizontalSection extends HookConsumerWidget {
   final String title;
   final String imageAsset;
   final String itemTitlePrefix;
+  final VoidCallback onClickMore;
 
   const _HorizontalSection({
     required this.title,
     required this.imageAsset,
     required this.itemTitlePrefix,
+    required this.onClickMore,
   });
 
   @override
@@ -96,7 +100,7 @@ class _HorizontalSection extends HookConsumerWidget {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             TextButton(
-              onPressed: (){}, 
+              onPressed: onClickMore, 
               child: Text("もっと見る"),
             )
           ],

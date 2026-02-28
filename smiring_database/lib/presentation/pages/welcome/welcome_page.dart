@@ -2,7 +2,6 @@ import 'dart:async'; // Future.delayedのために必要
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smiring_database/app/routes.dart'; // AppRoutesの定義場所に合わせてください
-import 'package:smiring_database/infrastructure/supabase/supabase_client.dart'; // supabaseのインスタンス用
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
